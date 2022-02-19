@@ -42,15 +42,15 @@ sequenceDiagram
     Note over MOBILE,IOT_CORE: DEVICE_CONNECT_TO_IOT_CORE
     
     rect rgb(216, 210, 203)
-    MOBILE->>IOT_CORE:CONNECT(JWT,device-id)
-    IOT_CORE->>MOBILE:CONNETION_GRANTED(valid)
+    MOBILE->>+IOT_CORE:CONNECT(JWT,device-id)
+    IOT_CORE->>-MOBILE:CONNETION_GRANTED(valid)
     end
     
     Note over MOBILE,IOT_CORE: MOBILE PUBLISH TOPIC
-    MOBILE->>IOT_CORE: pubslish "org/{org}/device/{id}/core_event"
+    MOBILE->>+IOT_CORE: pubslish "org/{org}/device/{id}/core_event"
 
     rect rgb(216, 210, 203)
-    IOT_CORE->>Pub/Sub: forward "org/{org}/device/{id}/core_event"
+    IOT_CORE->>-Pub/Sub: forward "org/{org}/device/{id}/core_event"
     BACKEND->>Pub/Sub:subscribe  "org/{org}/device/{id}/core_event"
     end
     end
