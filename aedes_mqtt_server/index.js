@@ -3,7 +3,14 @@ const { createServer } = require('aedes-server-factory')
 const mqtt = require('mqtt')
 const shortid = require('shortid');
 const port = 1883
-var client = mqtt.MqttClient
+var client = mqtt.MqttClient;
+
+// FLUTTER
+var flutter_device_id = "flutter-xxx-demo";
+var flutter_client_identifier = `org/hsu/${flutter_device_id}`;
+var flutter_status_topic = flutter_client_identifier + "/" + "status";
+var flutter_core_event_topic = flutter_client_identifier + "/" + "core";
+//----------
 const server = createServer(aedes)
 server.listen(port, function () {
     console.log('server started and listening on port ', port)
@@ -35,11 +42,21 @@ function initClient() {
             client.subscribe(topic, function (err) {
                 if (!err) {
                     // for (let index = 0; index < 10; index++) {
-                        client.publish(topic, 'Hello mqtt ' + topic)
+                    client.publish(topic, 'Hello mqtt ' + topic)
                     // }
                 }
             })
         });
+        //
+
+
+        /// Flutter topic
+        client.subscribe(flutter_status_topic, function (err) {
+            console.log(err)
+        })
+        client.subscribe(flutter_core_event_topic, function (err) {
+            console.log(err)
+        })
         //
 
     })
@@ -48,8 +65,8 @@ function initClient() {
     // Our nodejs server will be able to listen those topic we're subscribe
     client.on('message', function (topic, message) {
         // message is Buffer
-        console.log("topic:", topic, "   \tmess: ", message.toString())
-        client.end()
+        console.log("\n topic:", topic, "   \tmess: ", message.toString())
+        // client.end()
     })
 }
 
