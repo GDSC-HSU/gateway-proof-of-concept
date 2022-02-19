@@ -35,7 +35,7 @@ sequenceDiagram
     BACKEND->>-IOT_CORE:get_register_device_info
     
     IOT_CORE->>+BACKEND:iot_device(jwt,id)
-    BACKEND->>-MOBILE:device_config(jwt,id)
+    BACKEND->>-MOBILE:device_config(jwt,id,gcp root pem)
     end
 
     rect rgb(238, 238, 238)
