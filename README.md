@@ -20,7 +20,7 @@ sequenceDiagram
     BACKEND->>+IOT_CORE:register_iot_device
     BACKEND->>-IOT_CORE:get_register_device_info
     
-    IOT_CORE->>+BACKEND:iot_device_jwt
-    BACKEND->>-MOBILE:device_jwt
+    IOT_CORE->>+BACKEND:iot_device(jwt,id)
+    BACKEND->>-MOBILE:device_config(jwt,id)
     end
 ```
