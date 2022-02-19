@@ -22,14 +22,14 @@ function initClient() {
         port: port
     })
 
-    // MQTT Client request subsribe all sensor event
+    // MQTT Client request subscribe all sensor event
     var status_topics = makeOrgSensorStatusTopic()
 
 
     client.on('connect', function () {
 
         // --------------- MOCK WE HAVE ALL SENSOR
-        // Talk to MQTT server we want to subsribe to those status topic
+        // Talk to MQTT server we want to subscribe to those status topic
         // Ex : org/hsu/device/12313/status
         status_topics.forEach(topic => {
             client.subscribe(topic, function (err) {
@@ -43,6 +43,8 @@ function initClient() {
         //
 
     })
+
+    // IMPORTANCE !!!
     // Our nodejs server will be able to listen those topic we're subscribe
     client.on('message', function (topic, message) {
         // message is Buffer
@@ -56,8 +58,8 @@ function makeOrgSensorStatusTopic() {
 
     for (let index = 0; index < 5; index++) {
         var sensor_id = shortid.generate()
-        var templet = `org/hsu/device/${sensor_id}/status`
-        org_list_of_sensor_status_topic.push(templet)
+        var template = `org/hsu/device/${sensor_id}/status`
+        org_list_of_sensor_status_topic.push(template)
     }
     return org_list_of_sensor_status_topic
 
