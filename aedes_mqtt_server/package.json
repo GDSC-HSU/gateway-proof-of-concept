@@ -1,0 +1,17 @@
+{
+  "name": "aedes_mqtt_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aedes": "^0.46.3",
+    "aedes-server-factory": "^0.2.1",
+    "mqtt": "^4.3.6",
+    "shortid": "^2.2.16"
+  }
+}
