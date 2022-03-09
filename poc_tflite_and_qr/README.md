@@ -12,7 +12,8 @@
 1. qr_code_scanner and camera package not working together
 2. Cannot take screenshot (using package screenshot) for platform-views by using RepaintBoundary? #25306 **is not possible for embedding view**
 
-#### work
+#### Work
 1. google_ml_vison work but lagre app size for ios
+2. camera package work with tflite and google_ml_vision (Barcode)
 
 - [ ] Android
