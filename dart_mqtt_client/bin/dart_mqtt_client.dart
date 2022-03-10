@@ -9,18 +9,18 @@ import 'dart:convert';
 
 final broker_add = "0.0.0.0";
 final device_id = "flutter-xxx-demo";
-final client_identifier = 'org/hsu/${device_id}';
+final client_identifier = 'flutter-xxx-demo';
 
-final status_topic = client_identifier + "/" + "status";
-final core_event_topic = client_identifier + "/" + "core";
+// final status_topic = client_identifier + "/" + "status";
+// final core_event_topic = client_identifier + "/" + "core";
 
-final client = MqttServerClient(broker_add, '');
+final client = MqttServerClient(broker_add, client_identifier);
 void main(List<String> arguments) async {
   initClientConfig();
   final connection_status = await client.connect();
   if (connection_status!.state == MqttConnectionState.connected) {
-    initClientSubscribe();
-    intervalPublish();
+    // initClientSubscribe();
+    // intervalPublish();
   }
 }
 
@@ -41,35 +41,37 @@ void initClientSubscribe() {
   // });
 }
 
-void intervalPublish() {
-  var random = Random();
+// void intervalPublish() {
+//   var random = Random();
 
-  Timer.periodic(const Duration(seconds: 1), (timer) {
-    var status = random.nextInt(20) % 2 == 0 ? "online" : "offline";
-    var builder = MqttClientPayloadBuilder();
-    builder.addString(status);
-    client.publishMessage(status_topic, MqttQos.atLeastOnce, builder.payload!);
-  });
+//   Timer.periodic(const Duration(seconds: 1), (timer) {
+//     var status = random.nextInt(20) % 2 == 0 ? "online" : "offline";
+//     var builder = MqttClientPayloadBuilder();
+//     builder.addString(status);
+//     client.publishMessage(status_topic, MqttQos.atLeastOnce, builder.payload!);
+//   });
 
-  Timer.periodic(const Duration(seconds: 1), (timer) {
-    var builder = MqttClientPayloadBuilder();
-    builder.addString(json.encode(core_event_sample_payload));
-    client.publishMessage(
-        core_event_topic, MqttQos.atLeastOnce, builder.payload!);
-  });
-}
+//   Timer.periodic(const Duration(seconds: 1), (timer) {
+//     var builder = MqttClientPayloadBuilder();
+//     builder.addString(json.encode(core_event_sample_payload));
+//     client.publishMessage(
+//         core_event_topic, MqttQos.atLeastOnce, builder.payload!);
+//   });
+// }
 
 void initClientConfig() {
   client.setProtocolV311();
-  client.logging(on: false);
+  client.logging(on: true);
   // client.keepAlivePeriod = 180
   client.autoReconnect = true;
+  // client.secure = true;
   client.resubscribeOnAutoReconnect = true;
-  // final connectionMess = MqttConnectMessage()
-  //     .withClientIdentifier(client_identifier)
-  //     // .startClean()
-  //     .withWillQos(MqttQos.atLeastOnce);
-  // client.connectionMessage = connectionMess;
+  final connectionMess = MqttConnectMessage()
+      .withClientIdentifier(client_identifier)
+      .authenticateAs("GDSCHSU", "Mailaanhem123")
+      .startClean();
+  // .withWillQos(MqttQos.atLeastOnce);
+  client.connectionMessage = connectionMess;
 
   client.onConnected = () => {print("OMG connected:")};
   client.onAutoReconnect = () => {print("OMG onAutoReconnect:")};
